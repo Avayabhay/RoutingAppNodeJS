@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const accounts = require("./accounts.js");
+var accounts = require("./accounts.js");
 
 //GET request
 router.get("/accounts", (req, res) => {
@@ -36,6 +36,18 @@ router.put("/accounts/:id", (req, res) => {
     res.send({ userData: accounts });
   } else {
     res.status(500).end("No such user exists! Hence data not Altered!");
+  }
+});
+
+//DELETE request - for removing data from database
+router.delete("/accounts/:id", (req, res) => {
+  var accID = Number(req.params.id);
+  var newAccounts = accounts.filter((item) => item.id != accID);
+  if (accID) {
+    accounts = newAccounts;
+    res.send(accounts);
+  } else {
+    res.status(500).send("No Such User exists!");
   }
 });
 
